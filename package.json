@@ -1,0 +1,32 @@
+{
+  "name": "dott",
+  "version": "1.0.0",
+  "description": "Dott Interview Project",
+  "main": "index.js",
+  "scripts": {
+    "debug": "node -r ts-node/register --inspect src/index.ts",
+    "lint": "npx eslint . --ext .ts",
+    "start": "node out/index.js",
+    "prestart": "npm run build",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vigsank/dott.git"
+  },
+  "author": "vigsank",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vigsank/dott/issues"
+  },
+  "homepage": "https://github.com/vigsank/dott#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.14",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "eslint": "^8.8.0",
+    "eslint-config-google": "^0.14.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  }
+}
