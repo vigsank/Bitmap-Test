@@ -2,7 +2,7 @@
 enum ErrorCode {
   InvalidValueOfBitmapSize,
   InvalidNumberOfTestCases,
-  NoWhitePixelFound
+  NoWhitePixelFoundInTheRow
 }
 
 interface Error {
@@ -12,21 +12,21 @@ interface Error {
 
 const invalidValueOfBitmapSize = (): Error => ({
   type: ErrorCode.InvalidValueOfBitmapSize,
-  message: 'Invalid value of Bitmap size!',
+  message: 'Input has Invalid value of Bitmap size.',
 });
 
 const invalidNumberOfTestCasesError = (): Error => ({
   type: ErrorCode.InvalidNumberOfTestCases,
-  message: 'No. of Tests cases defined is Invalid!',
+  message: 'No. of Tests cases defined is Invalid.',
 });
 
-const whitePixelNotFoundError = (): Error => ({
-  type: ErrorCode.NoWhitePixelFound,
-  message: 'No White Pixel Found',
+const whitePixelNotFoundErrorInTheRow = (): Error => ({
+  type: ErrorCode.NoWhitePixelFoundInTheRow,
+  message: 'No White Pixel Found in a Row.',
 });
 
 export {
   invalidValueOfBitmapSize,
   invalidNumberOfTestCasesError,
-  whitePixelNotFoundError,
+  whitePixelNotFoundErrorInTheRow,
 };
