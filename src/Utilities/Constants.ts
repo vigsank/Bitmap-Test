@@ -4,7 +4,7 @@
  */
 export abstract class Constants {
   static readonly MIN_NUMBER_OF_TEST_CASE: number = 1;
-  static readonly MAX_NUMBER_OF_TESTCASES: number = 1000;
+  static readonly MAX_NUMBER_OF_TEST_CASE: number = 1000;
 
   static readonly MIN_ALLOWED_BITMAP_SIZE: number = 1;
   static readonly MAX_ALLOWED_BITMAP_SIZE: number = 182;
