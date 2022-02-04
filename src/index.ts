@@ -1,16 +1,23 @@
-import readline from 'readline';
-import {Constants} from './Constants';
-import {invalidNumberOfTestCasesError, invalidValueOfBitmapSize, whitePixelNotFoundError} from './ErrorHandler';
+/* eslint-disable require-jsdoc */
+/* eslint-disable no-unused-vars */
+import {
+  invalidNumberOfTestCasesError,
+  invalidValueOfBitmapSize,
+} from './ErrorHandler';
 
-/**
- * Hello World Project
- */
+import {Constants} from './Constants';
+import readline from 'readline';
+
 class BitmapProcessor {
   public numberOfTestCases: number | undefined;
   public rowSize: number | undefined;
   public columnSize: number | undefined;
   public ainputTemplateArray: any[][] = [];
   public aOutputArray: any[][] = [];
+
+  /**
+   * Empty Constructor
+   */
 
   constructor() {}
 
@@ -39,14 +46,26 @@ class BitmapProcessor {
       console.log('-------');
 
       this.printOutput();
-      console.log(`Total Time Taken to calculating distance alone is: ${(calculationProcessStop[0] * 1e9 + calculationProcessStop[1]) / 1e9} seconds`);
-      console.log(`Total Time Taken to complete the full process: ${(fullProcessStop[0] * 1e9 + fullProcessStop[1]) / 1e9} seconds`);
+      console.log(
+          `Total Time Taken to calculating distance alone is: ${
+            (calculationProcessStop[0] * 1e9 + calculationProcessStop[1]) / 1e9
+          } seconds`,
+      );
+      console.log(
+          `Total Time Taken to complete the full process: ${
+            (fullProcessStop[0] * 1e9 + fullProcessStop[1]) / 1e9
+          } seconds`,
+      );
     });
   }
 
   private printOutput(): void {
     for (let rowInd = 0; rowInd < this.aOutputArray.length; rowInd++) {
-      for (let colInd = 0; colInd < this.aOutputArray[rowInd].length; colInd++) {
+      for (
+        let colInd = 0;
+        colInd < this.aOutputArray[rowInd].length;
+        colInd++
+      ) {
         process.stdout.write(this.aOutputArray[rowInd][colInd] + ' ');
       }
       process.stdout.write('\n');
@@ -56,7 +75,12 @@ class BitmapProcessor {
 
   private readLine(line: string): void {
     if (this.numberOfTestCases === undefined) {
-      if (!(Number(line) >= Constants.MIN_NUMBER_OF_TEST_CASE && Number(line) <= Constants.MAX_NUMBER_OF_TESTCASES)) {
+      if (
+        !(
+          Number(line) >= Constants.MIN_NUMBER_OF_TEST_CASE &&
+          Number(line) <= Constants.MAX_NUMBER_OF_TESTCASES
+        )
+      ) {
         throw invalidNumberOfTestCasesError();
       }
       this.numberOfTestCases = Number(line);
@@ -95,28 +119,39 @@ class BitmapProcessor {
     let currentOccurrenceOfWhite: number = 0;
     let allOccurrencesOfWhite: number[] = [];
     let indexOfCurrentOccurrenceOfWhite: number = 0;
-    let outputRowIndex: number = 0;
-    for (let index: number = 0; index < this.ainputTemplateArray.length; index++) {
+    for (
+      let index: number = 0;
+      index < this.ainputTemplateArray.length;
+      index++
+    ) {
       const aOutputRow: String[] = [];
       const rowData: String[] = this.ainputTemplateArray[index];
       allOccurrencesOfWhite = this.findOccurenceOfWhites(rowData);
       for (let ind: number = 0; ind < rowData.length; ind++) {
         if (String(rowData[ind]) !== '' && Number(rowData[ind]) !== -1) {
-          currentOccurrenceOfWhite = allOccurrencesOfWhite[indexOfCurrentOccurrenceOfWhite];
+          currentOccurrenceOfWhite =
+            allOccurrencesOfWhite[indexOfCurrentOccurrenceOfWhite];
 
           if (Number(rowData[ind]) === 1) {
             aOutputRow.push('0');
             indexOfCurrentOccurrenceOfWhite++;
             previousOccurenceOfWhite = currentOccurrenceOfWhite;
           } else {
-            aOutputRow.push(String(this.computeOutput(currentOccurrenceOfWhite, previousOccurenceOfWhite, ind)));
+            aOutputRow.push(
+                String(
+                    this.computeOutput(
+                        currentOccurrenceOfWhite,
+                        previousOccurenceOfWhite,
+                        ind,
+                    ),
+                ),
+            );
           }
         } else {
           aOutputRow.push(rowData[ind]);
         }
       }
       this.aOutputArray.push(aOutputRow);
-      outputRowIndex++;
       indexOfCurrentOccurrenceOfWhite = 0;
     }
   };
@@ -131,15 +166,28 @@ class BitmapProcessor {
     return occurencesOfWhitesInRowData;
   };
 
-  private computeOutput = (currentOccurrenceOfWhite: number, previousOccurenceOfWhite: number, index: number): number => {
+  private computeOutput = (
+      currentOccurrenceOfWhite: number,
+      previousOccurenceOfWhite: number,
+      index: number,
+  ): number => {
     if (previousOccurenceOfWhite < 0) {
       return Math.abs(index - currentOccurrenceOfWhite);
-    } else if (typeof currentOccurrenceOfWhite === 'undefined' && previousOccurenceOfWhite >= 0) {
+    } else if (
+      typeof currentOccurrenceOfWhite === 'undefined' &&
+      previousOccurenceOfWhite >= 0
+    ) {
       return Math.abs(index - previousOccurenceOfWhite);
-    } else if (typeof previousOccurenceOfWhite === 'undefined' && currentOccurrenceOfWhite >= 0) {
+    } else if (
+      typeof previousOccurenceOfWhite === 'undefined' &&
+      currentOccurrenceOfWhite >= 0
+    ) {
       return Math.abs(index - currentOccurrenceOfWhite);
     }
-    return Math.min(Math.abs(index - currentOccurrenceOfWhite), Math.abs(index - previousOccurenceOfWhite));
+    return Math.min(
+        Math.abs(index - currentOccurrenceOfWhite),
+        Math.abs(index - previousOccurenceOfWhite),
+    );
   };
 }
 

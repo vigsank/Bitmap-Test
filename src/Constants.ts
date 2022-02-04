@@ -1,5 +1,6 @@
 /**
- * Defines all Constants that helps in validation of Inputs and computation of Distance.
+ * Defines all Constants that helps in validation of
+ * Inputs and computation of Distance.
  */
 export abstract class Constants {
   static readonly MIN_NUMBER_OF_TEST_CASE: number = 1;
