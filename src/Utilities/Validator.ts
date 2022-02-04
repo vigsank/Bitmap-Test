@@ -29,10 +29,10 @@ export class Validator {
       oBitMapDescription: BitmapDescription
   ): boolean {
     return (
-      Number(oBitMapDescription.rowLength) >=
-        Constants.MIN_ALLOWED_BITMAP_SIZE &&
-      Number(oBitMapDescription.columnHeight) <=
-        Constants.MAX_ALLOWED_BITMAP_SIZE
+      oBitMapDescription.rowLength >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.rowLength <= Constants.MAX_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.columnHeight >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.columnHeight <= Constants.MAX_ALLOWED_BITMAP_SIZE
     );
   }
 }
