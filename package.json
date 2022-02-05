@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "start": "npm run build && cat ./res/InputSamples/Samples.txt | node ./out/src/index.js",
+    "start": "npm run build && node ./out/src/index.js",
     "build": "tsc",
     "clean": "rm -rf ./out",
     "clean:build": "npm run clean && npm run build",
