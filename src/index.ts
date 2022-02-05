@@ -59,6 +59,7 @@ export class BitmapProcessor {
           tFullProcessStart,
           'Complete Full Process (Read data + Calculate Distance)'
       );
+      process.stdout.write('\n');
     });
   }
 
