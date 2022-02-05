@@ -68,6 +68,8 @@ To run tests:
 
 ```
 npm run test
+
+This also generates 'coverage' data and puts into 'coverage' folder.
 ```
 
 To check & fix linting:
