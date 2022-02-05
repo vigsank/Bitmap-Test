@@ -29,10 +29,10 @@ export class Validator {
       oBitMapDescription: BitmapDescription
   ): boolean {
     return (
-      oBitMapDescription.rowLength >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
-      oBitMapDescription.rowLength <= Constants.MAX_ALLOWED_BITMAP_SIZE &&
-      oBitMapDescription.columnHeight >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
-      oBitMapDescription.columnHeight <= Constants.MAX_ALLOWED_BITMAP_SIZE
+      oBitMapDescription.rowSize >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.rowSize <= Constants.MAX_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.columnSize >= Constants.MIN_ALLOWED_BITMAP_SIZE &&
+      oBitMapDescription.columnSize <= Constants.MAX_ALLOWED_BITMAP_SIZE
     );
   }
 }

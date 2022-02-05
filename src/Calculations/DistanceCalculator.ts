@@ -168,7 +168,6 @@ export class DistanceCalculator {
      */
     if (!aOccurrencesOfWhitesInPixelRow.length) {
       throwError(whitePixelNotFoundErrorInTheRow());
-      // process.exit(0);
     }
     return aOccurrencesOfWhitesInPixelRow;
   };

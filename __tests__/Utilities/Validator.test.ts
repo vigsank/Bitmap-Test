@@ -22,8 +22,8 @@ describe('Validator Tests', () => {
     it('isBitmapSizeWithinRange returns true for valid size range - (r=1, c=182)', () => {
       expect(
           Validator.isBitmapSizeWithinRange({
-            rowLength: 1,
-            columnHeight: 182
+            rowSize: 1,
+            columnSize: 182
           })
       ).toBeTruthy();
     });
@@ -31,8 +31,8 @@ describe('Validator Tests', () => {
     it('isBitmapSizeWithinRange returns true for valid size range - (r=182, c=1)', () => {
       expect(
           Validator.isBitmapSizeWithinRange({
-            rowLength: 182,
-            columnHeight: 1
+            rowSize: 182,
+            columnSize: 1
           })
       ).toBeTruthy();
     });
@@ -40,8 +40,8 @@ describe('Validator Tests', () => {
     it('isBitmapSizeWithinRange returns true for valid size range - (r=182, c=182)', () => {
       expect(
           Validator.isBitmapSizeWithinRange({
-            rowLength: 182,
-            columnHeight: 182
+            rowSize: 182,
+            columnSize: 182
           })
       ).toBeTruthy();
     });
@@ -50,8 +50,8 @@ describe('Validator Tests', () => {
       it('isBitmapSizeWithinRange returns false for invalid size range - (r=0, c=182)', () => {
         expect(
             Validator.isBitmapSizeWithinRange({
-              rowLength: 0,
-              columnHeight: 182
+              rowSize: 0,
+              columnSize: 182
             })
         ).toBeFalsy();
       });
@@ -59,8 +59,8 @@ describe('Validator Tests', () => {
       it('isBitmapSizeWithinRange returns false for valid size range - (r=182, c=0)', () => {
         expect(
             Validator.isBitmapSizeWithinRange({
-              rowLength: 182,
-              columnHeight: 0
+              rowSize: 182,
+              columnSize: 0
             })
         ).toBeFalsy();
       });
@@ -68,8 +68,8 @@ describe('Validator Tests', () => {
       it('isBitmapSizeWithinRange returns false for valid size range - (r=0, c=0)', () => {
         expect(
             Validator.isBitmapSizeWithinRange({
-              rowLength: 0,
-              columnHeight: 0
+              rowSize: 0,
+              columnSize: 0
             })
         ).toBeFalsy();
       });
@@ -77,8 +77,8 @@ describe('Validator Tests', () => {
       it('isBitmapSizeWithinRange returns false for valid size range - (r=183, c=1)', () => {
         expect(
             Validator.isBitmapSizeWithinRange({
-              rowLength: 183,
-              columnHeight: 0
+              rowSize: 183,
+              columnSize: 0
             })
         ).toBeFalsy();
       });
@@ -86,8 +86,8 @@ describe('Validator Tests', () => {
       it('isBitmapSizeWithinRange returns false for valid size range - (r=1, c=183)', () => {
         expect(
             Validator.isBitmapSizeWithinRange({
-              rowLength: 1,
-              columnHeight: 183
+              rowSize: 1,
+              columnSize: 183
             })
         ).toBeFalsy();
       });

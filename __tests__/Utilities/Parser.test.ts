@@ -1,18 +1,23 @@
 /* eslint-disable no-unused-vars */
 import {Parser} from '../../src/Utilities/Parser';
+import chalk from 'chalk';
 
 enum Scenarios {
   invalidTestCase,
   invalidBitmapSize,
-  multipleTestCases
+  multipleTestCases,
+  bitmapColumnSizeError
 }
-
-const seedDataToParser = (Scenario?: any): Parser => {
-  const oParser: Parser = new Parser();
+let oParser: Parser;
+const seedDataToParser = (
+    Scenario?: Scenarios | undefined,
+    noOfTestCases: string = '1'
+): Parser => {
+  oParser = new Parser();
   if (Scenario === Scenarios.invalidTestCase) {
     oParser.parse('0');
   } else {
-    oParser.parse('1');
+    oParser.parse(noOfTestCases);
   }
   if (Scenario === Scenarios.invalidBitmapSize) {
     oParser.parse('3 183');
@@ -22,8 +27,12 @@ const seedDataToParser = (Scenario?: any): Parser => {
   oParser.parse('0001');
   oParser.parse('0011');
   oParser.parse('0110');
+  if (Scenario === Scenarios.bitmapColumnSizeError) {
+    oParser.parse('00110');
+  }
   if (Scenario === Scenarios.multipleTestCases) {
     oParser.parse('');
+    oParser.parse('3 4');
     oParser.parse('0001');
     oParser.parse('0011');
     oParser.parse('0110');
@@ -43,7 +52,7 @@ describe('Parser Tests', () => {
   });
 
   it('Successful Input Parsing - Multiple Test cases', () => {
-    const oParser: Parser = seedDataToParser(Scenarios.multipleTestCases);
+    const oParser: Parser = seedDataToParser(Scenarios.multipleTestCases, '2');
     const expectedArray: String[][] = [
       ['0', '0', '0', '1'],
       ['0', '0', '1', '1'],
@@ -66,5 +75,41 @@ describe('Parser Tests', () => {
     expect(() => {
       seedDataToParser(Scenarios.invalidBitmapSize);
     }).toThrowError();
+  });
+
+  it('Failure Input Parsing - No Test cases < Actual No of Test Cases', () => {
+    expect.assertions(1); // expects one failure
+    try {
+      seedDataToParser(Scenarios.multipleTestCases);
+    } catch (oError: any) {
+      expect(oError.message).toBe(
+          chalk
+              .bgHex('#FFFF00')
+              .red(
+                  chalk.bold(
+                      // eslint-disable-next-line max-len
+                      `Error!! Actual No. of Tests cases are more than defined no. of Test cases.`
+                  )
+              )
+      );
+    }
+  });
+
+  it('Failure Input Parsing - Bitmap row size < row size', () => {
+    expect.assertions(1);
+    try {
+      seedDataToParser(Scenarios.bitmapColumnSizeError);
+    } catch (oError: any) {
+      expect(oError.message).toBe(
+          chalk
+              .bgHex('#FFFF00')
+              .red(
+                  chalk.bold(
+                      // eslint-disable-next-line max-len
+                      `Error!! Actual Bitmap size is more than defined range`
+                  )
+              )
+      );
+    }
   });
 });

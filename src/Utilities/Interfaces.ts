@@ -2,8 +2,8 @@
  * Bitmap Description Interface
  */
 export interface BitmapDescription {
-  rowLength: number;
-  columnHeight: number;
+  rowSize: number;
+  columnSize: number;
 }
 
 /**

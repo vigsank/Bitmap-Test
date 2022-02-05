@@ -1,4 +1,6 @@
 import {
+  invalidActualBitmapSizeError,
+  invalidActualNumberOfTestCasesError,
   invalidNumberOfTestCasesError,
   invalidValueOfBitmapSize,
   throwError
@@ -11,11 +13,14 @@ import {Validator} from './Validator';
  * Class that parses the input and forms an array.
  */
 export class Parser {
-  public nNumberOfTestCases: number | undefined;
+  private nGivenNumberOfTestCases: number | undefined;
+  private nActualNumberOfTestCases: number = 0;
   // Array that will hold the input data.
   private aInputAsArray: String[][] = [];
-  // Bitmap description
+  // Bitmap Size
   private oBitMapDescription!: BitmapDescription;
+  // Actual Number of Rows after parsing one test case
+  private nActualNumberOfRows: number = 0;
 
   /**
    *
@@ -24,22 +29,21 @@ export class Parser {
    */
   public parse(oCurrentLine: string): void {
     /**
-     * If nNumberOfTestCases is undefined, then this is the first line of the
-     * input that is being read.
+     * If nGivenNumberOfTestCases is undefined, then this is the first line of
+     * the input that is being read.
      */
-    if (this.nNumberOfTestCases === undefined) {
+    if (this.nGivenNumberOfTestCases === undefined) {
       /**
        * Validates if the no of Test case is within the range.
        */
       if (!Validator.isNoOfTestCasesWithinRange(Number(oCurrentLine))) {
         throwError(invalidNumberOfTestCasesError());
-        // process.exit(0);
       }
       /**
        * This variable is not used anywhere but used to read upcoming lines
        * and populate incoming array.
        */
-      this.nNumberOfTestCases = Number(oCurrentLine);
+      this.nGivenNumberOfTestCases = Number(oCurrentLine);
       return;
     }
     /**
@@ -47,25 +51,50 @@ export class Parser {
      * Bitmap description of one particular test case.
      */
     if (oCurrentLine.includes(' ')) {
+      // Reset before parsing next test case
+      this.nActualNumberOfRows = 0;
       /**
        * Validates if the Bitmap description is within the test range.
        */
       this.oBitMapDescription = {
-        rowLength: Number(oCurrentLine.split(' ')[0]),
-        columnHeight: Number(oCurrentLine.split(' ')[1])
+        rowSize: Number(oCurrentLine.split(' ')[0]),
+        columnSize: Number(oCurrentLine.split(' ')[1])
       };
       if (!Validator.isBitmapSizeWithinRange(this.oBitMapDescription)) {
         throwError(invalidValueOfBitmapSize());
-        // process.exit(0);
       }
     } else {
       if (oCurrentLine === '') {
+        /**
+         * If the Given No. Of test case value is lesser than actual real
+         * number of test cases, then throw error.
+         */
+        this.nActualNumberOfTestCases++;
+        if (this.nGivenNumberOfTestCases <= this.nActualNumberOfTestCases) {
+          throwError(invalidActualNumberOfTestCasesError());
+        }
         /**
          * Push Empty row to input array when the current line
          * from input is an empty line.
          */
         this.aInputAsArray.push([]);
       } else {
+        /**
+         * When no. of pixels in current row > rowLength of Bitmap,
+         * then throw error.
+         * Similarly no. of rows per test case > columnLength of Bitmap,
+         * then throw error.
+         */
+        this.nActualNumberOfRows++;
+        if (
+          !(
+            this.oBitMapDescription.columnSize >=
+              oCurrentLine.split('').length &&
+            this.oBitMapDescription.rowSize >= this.nActualNumberOfRows
+          )
+        ) {
+          throwError(invalidActualBitmapSizeError());
+        }
         this.aInputAsArray.push(oCurrentLine.split(''));
       }
     }

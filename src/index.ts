@@ -31,7 +31,6 @@ export class BitmapProcessor {
         this.oParser.parse(oLine.trim());
       } catch (oError: any) {
         throwError(oError);
-        // process.exit(0);
       }
     });
 
