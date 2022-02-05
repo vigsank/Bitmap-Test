@@ -24,7 +24,7 @@ export const whitePixelNotFoundErrorInTheRow = (): ErrorInfo => ({
 });
 
 export const throwError = (oError: any): void => {
-  if (oError as ErrorInfo) {
+  if (oError.hasOwnProperty('message')) {
     throw new Error(
         chalk.bgHex('#FFFF00').red(chalk.bold(`Error!! ${oError.message}`))
     );

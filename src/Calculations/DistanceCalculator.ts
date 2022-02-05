@@ -196,10 +196,10 @@ export class DistanceCalculator {
       nCurrentPixelIndex: number
   ): number => {
     /**
-     * If no nNextOccurrenceOfWhitePixel || nNextOccurrenceOfWhitePixel is
-     * undefined but nPreviousOccurrenceOfWhitePixel exists, compute
+     * If nPreviousOccurrenceOfWhitePixel = 0 or nPreviousOccurrenceOfWhitePixel
+     * is undefined but nNextOccurrenceOfWhitePixel exists, compute
      * shortest distance between current pixel and
-     * nPreviousOccurrenceOfWhitePixel
+     * nNextOccurrenceOfWhitePixel
      */
     if (
       nPreviousOccurrenceOfWhitePixel < 0 ||
@@ -211,8 +211,6 @@ export class DistanceCalculator {
       /**
        * If no nNextOccurrenceOfWhitePixel, compute shortest distance between
        * current pixel and nPreviousOccurrenceOfWhitePixel
-       *
-       *
        */
       typeof nNextOccurrenceOfWhitePixel === 'undefined' &&
       nPreviousOccurrenceOfWhitePixel >= 0
