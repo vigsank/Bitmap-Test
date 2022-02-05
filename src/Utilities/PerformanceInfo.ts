@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 /**
  * Class that process Performance Info
  */
@@ -14,11 +15,12 @@ export class PerformanceInfo {
       perfDataOf: string
   ): void {
     const tProcessStop = process.hrtime(tStartTime);
-    process.stdout.write('\n');
     process.stdout.write(
-        `Time Taken to ${perfDataOf} is: ${
-          (tProcessStop[0] * 1e9 + tProcessStop[1]) / 1e9
-        } seconds`
+        chalk.magenta(
+            // eslint-disable-next-line max-len
+            `\nTime Taken to ${chalk.bold(chalk.underline(perfDataOf))} is: ${chalk.bgHex('#FFFFFF').black(`${
+              (tProcessStop[0] * 1e9 + tProcessStop[1]) / 1e9 } seconds`)}.`
+        )
     );
   }
 }

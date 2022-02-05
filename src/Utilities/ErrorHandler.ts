@@ -1,29 +1,36 @@
 /* eslint-disable no-unused-vars */
 import {ErrorInfo} from './Interfaces';
+import chalk from 'chalk';
 
-enum ErrorCode {
+export enum ErrorCode {
   InvalidValueOfBitmapSize,
   InvalidNumberOfTestCases,
-  NoWhitePixelFoundInTheRow
+  NoWhitePixelFoundInTheRow,
 }
 
-const invalidValueOfBitmapSize = (): ErrorInfo => ({
+export const invalidValueOfBitmapSize = (): ErrorInfo => ({
   type: ErrorCode.InvalidValueOfBitmapSize,
   message: 'Input has Invalid value of Bitmap size.'
 });
 
-const invalidNumberOfTestCasesError = (): ErrorInfo => ({
+export const invalidNumberOfTestCasesError = (): ErrorInfo => ({
   type: ErrorCode.InvalidNumberOfTestCases,
   message: 'No. of Tests cases defined is Invalid.'
 });
 
-const whitePixelNotFoundErrorInTheRow = (): ErrorInfo => ({
+export const whitePixelNotFoundErrorInTheRow = (): ErrorInfo => ({
   type: ErrorCode.NoWhitePixelFoundInTheRow,
   message: 'No White Pixel Found in a Row.'
 });
 
-export {
-  invalidValueOfBitmapSize,
-  invalidNumberOfTestCasesError,
-  whitePixelNotFoundErrorInTheRow
+export const throwError = (oError: any): void => {
+  if (oError as ErrorInfo) {
+    throw new Error(
+        chalk.bgHex('#FFFF00').red(chalk.bold(`Error!! ${oError.message}`))
+    );
+  } else {
+    throw new Error(
+        chalk.bgHex('#FFFF00').red(chalk.bold(`Error!! ${oError}`))
+    );
+  }
 };

@@ -1,4 +1,5 @@
 import {Constants} from '../Utilities/Constants';
+import {throwError} from '../Utilities/ErrorHandler';
 import {whitePixelNotFoundErrorInTheRow} from '../Utilities/ErrorHandler';
 
 /**
@@ -38,11 +39,12 @@ export class DistanceCalculator {
       const aDistances: String[] = [];
       const aCurrentRowPixels: String[] = aBitMapArray[nRowIterator];
       /**
-       * If one of the elements is empty, then the row is an empty
-       * row (basically a empty line as per input).
-       * We process only the row that has valid pixels.
+       * If the length of current row of pixels is zero
+       * (basically a empty line as per input).
+       * We ignore that row from calculation process
+       * rather add empty row to output array.
        */
-      if (String(aCurrentRowPixels[0]) !== '') {
+      if (aCurrentRowPixels.length > 0) {
         /**
          * Compute all occurrences of white pixels from the current row.
          * This shall be used to compute nearest white pixel while iterating
@@ -119,11 +121,11 @@ export class DistanceCalculator {
         }
       } else {
         /**
-         * If current row has no pixels rather empty element(s),
+         * If current row has no pixels rather empty row,
          * then output also needs an empty line. So inserting the same
          * empty row to output distances array also.
          */
-        aDistances.push(aCurrentRowPixels[0]);
+        aDistances.push('');
       }
       aComputedDistances.push(aDistances);
       // reset before that next pixel row is taken for distance calculation.
@@ -165,7 +167,8 @@ export class DistanceCalculator {
      * as atleast each row should have atleast one White.
      */
     if (!aOccurrencesOfWhitesInPixelRow.length) {
-      throw whitePixelNotFoundErrorInTheRow();
+      throwError(whitePixelNotFoundErrorInTheRow());
+      // process.exit(0);
     }
     return aOccurrencesOfWhitesInPixelRow;
   };

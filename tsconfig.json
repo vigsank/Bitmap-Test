@@ -6,7 +6,6 @@
     "removeComments": true,                /* Do not emit comments to output. */
     "sourceMap": true,                     /* Generates corresponding '.map' file. */
     "outDir": "./out",
-    "rootDir": "./src",
     "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
 
     /* Strict Type-Checking Options */

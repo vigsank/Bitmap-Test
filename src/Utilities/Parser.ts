@@ -1,6 +1,7 @@
 import {
   invalidNumberOfTestCasesError,
-  invalidValueOfBitmapSize
+  invalidValueOfBitmapSize,
+  throwError
 } from './ErrorHandler';
 
 import {BitmapDescription} from './Interfaces';
@@ -31,7 +32,8 @@ export class Parser {
        * Validates if the no of Test case is within the range.
        */
       if (!Validator.isNoOfTestCasesWithinRange(Number(oCurrentLine))) {
-        throw invalidNumberOfTestCasesError();
+        throwError(invalidNumberOfTestCasesError());
+        // process.exit(0);
       }
       /**
        * This variable is not used anywhere but used to read upcoming lines
@@ -53,11 +55,16 @@ export class Parser {
         columnHeight: Number(oCurrentLine.split(' ')[1])
       };
       if (!Validator.isBitmapSizeWithinRange(this.oBitMapDescription)) {
-        throw invalidValueOfBitmapSize();
+        throwError(invalidValueOfBitmapSize());
+        // process.exit(0);
       }
     } else {
       if (oCurrentLine === '') {
-        this.insertEmptyLineToOutputArray();
+        /**
+         * Push Empty row to input array when the current line
+         * from input is an empty line.
+         */
+        this.aInputAsArray.push([]);
       } else {
         this.aInputAsArray.push(oCurrentLine.split(''));
       }
@@ -71,19 +78,4 @@ export class Parser {
   public getParsedArray(): String[][] {
     return this.aInputAsArray;
   }
-
-  /**
-   * Push Empty row to input array when the current line
-   * from input is an empty line.
-   */
-  private insertEmptyLineToOutputArray = (): void => {
-    this.aInputAsArray.push([]);
-    for (
-      let nColIndex: number = 0;
-      nColIndex < this.oBitMapDescription.columnHeight!;
-      nColIndex++
-    ) {
-      this.aInputAsArray[this.aInputAsArray.length - 1][nColIndex] = '';
-    }
-  };
 }

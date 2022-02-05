@@ -1,12 +1,14 @@
 import {DistanceCalculator} from './Calculations/DistanceCalculator';
 import {Parser} from './Utilities/Parser';
 import {PerformanceInfo} from './Utilities/PerformanceInfo';
+import chalk from 'chalk';
 import readline from 'readline';
+import {throwError} from './Utilities/ErrorHandler';
 
 /**
  * Reads Bitmap input from Input Text and processes it.
  */
-class BitmapProcessor {
+export class BitmapProcessor {
   public oParser: Parser = new Parser();
 
   /**
@@ -28,17 +30,8 @@ class BitmapProcessor {
       try {
         this.oParser.parse(oLine.trim());
       } catch (oError: any) {
-        if (
-          oError &&
-          oError.hasOwnProperty('type') &&
-          oError.hasOwnProperty('message')
-        ) {
-          process.stdout.write(oError.message);
-          process.exit(0);
-        } else {
-          process.stdout.write(oError);
-          process.exit(0);
-        }
+        throwError(oError);
+        // process.exit(0);
       }
     });
 
@@ -55,9 +48,9 @@ class BitmapProcessor {
       this.printOutput(
           DistanceCalculator.calculateDistances(this.oParser.getParsedArray())
       );
-      process.stdout.write('Performance Info:');
+      process.stdout.write(chalk.magenta('Performance Info:'));
       process.stdout.write('\n');
-      process.stdout.write('-----------------');
+      process.stdout.write(chalk.magenta('-----------------'));
       PerformanceInfo.printPerformanceInfo(
           tCalculationProcessStart,
           'Calculate Distance only'
@@ -75,9 +68,13 @@ class BitmapProcessor {
    * Prints the output array.
    */
   private printOutput(aComputedDistances: String[][]): void {
-    process.stdout.write('Computed Distances (row based only) :');
+    process.stdout.write(
+        chalk.green(
+            chalk.bold('Computed Distances (row based calculations only) :')
+        )
+    );
     process.stdout.write('\n');
-    process.stdout.write('-------------------------------------');
+    process.stdout.write(chalk.bold('-------------------------------------'));
     process.stdout.write('\n\n');
     for (
       let nRowInd: number = 0;
@@ -89,7 +86,9 @@ class BitmapProcessor {
         nColInd < aComputedDistances[nRowInd].length;
         nColInd++
       ) {
-        process.stdout.write(aComputedDistances[nRowInd][nColInd] + ' ');
+        process.stdout.write(
+            chalk.green(aComputedDistances[nRowInd][nColInd] + ' ')
+        );
       }
       process.stdout.write('\n');
     }
