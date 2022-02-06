@@ -32,12 +32,12 @@ export class DistanceCalculator {
      * representing each line of a test case from input.
      */
     for (
-      let nRowIterator: number = 0;
-      nRowIterator < aBitMapArray.length;
-      nRowIterator++
+      let nRowIteratorIndex: number = 0;
+      nRowIteratorIndex < aBitMapArray.length;
+      nRowIteratorIndex++
     ) {
       const aDistances: String[] = [];
-      const aCurrentRowPixels: String[] = aBitMapArray[nRowIterator];
+      const aCurrentRowPixels: String[] = aBitMapArray[nRowIteratorIndex];
       /**
        * If the length of current row of pixels is zero
        * (basically a empty line as per input).
