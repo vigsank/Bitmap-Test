@@ -14,7 +14,7 @@ describe('Performance Info Tests', () => {
         startTimeMockValue,
         perfDataOf
     );
-    const expectedPerfData: string = chalk.magenta(
+    const expectedPerfData: String = chalk.magenta(
         // eslint-disable-next-line max-len
         `\nTime Taken to ${chalk.bold(chalk.underline(perfDataOf))} is: ${chalk
             .bgHex('#FFFFFF')

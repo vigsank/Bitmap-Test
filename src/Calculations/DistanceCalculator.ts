@@ -1,6 +1,4 @@
 import {Constants} from '../Utilities/Constants';
-import {throwError} from '../Utilities/ErrorHandler';
-import {whitePixelNotFoundErrorInTheRow} from '../Utilities/ErrorHandler';
 
 /**
  * Class Responsible for calculating the distance between two pixels.
@@ -18,7 +16,6 @@ export class DistanceCalculator {
    * @return {String} Output Array after distance computation (row wise).
    */
   public static calculateDistances(aBitMapArray: String[][]): String[][] {
-    // eslint-disable-next-line no-unused-vars
     const aComputedDistances: String[][] = [];
     let nPreviousOccurrenceOfWhitePixel: number = -1;
     let nNextOccurrenceOfWhitePixel: number = 0;
@@ -63,69 +60,70 @@ export class DistanceCalculator {
           nCurrentRowIteratorIndex++
         ) {
           /**
-           * Set next occurrence of White Pixel.
-           * At start, this shall be the first element of
-           * aAllOccurrencesOfWhitePixelsInCurrentRow. In subsequent iterations,
-           * if the current pixel's index matches with Next Occurrence Of White
-           * Pixel, then it's time to consider next occurrence of white also.
-           * So current 'next occurrence' becomes 'previous occurrence'
-           * and new 'next occurrence' will be next element from
-           * aAllOccurrencesOfWhitePixelsInCurrentRow.
-           *
-           * Ex: aAllOccurrencesOfWhitePixelsInCurrentRow = [2,5]
-           *
-           * Iterations until first White pixel is hit:
-           * ------------------------------------------
-           * nNextOccurrenceOfWhitePixel = 2;
-           * nPreviousOccurrenceOfWhitePixel = -1;
-           *
-           * Next / Previous is changed as below then
-           * process continues again until next White pixel is hit:
-           * ------------------------------------------------------
-           * nNextOccurrenceOfWhitePixel = 5;
-           * nPreviousOccurrenceOfWhitePixel = 2;
-           *
-           * And so on...
+           * If one row has all zero pixels, the distance is zero only
+           * since this whole calculation logic is row based.
            */
-          nNextOccurrenceOfWhitePixel =
-            aAllOccurrencesOfWhitePixelsInCurrentRow[
-                aIndexForOccurrencesOfWhiteArray
-            ];
-
-          /**
-           * When a White pixel is encountered, the distance is Zero.
-           * This is where the 'next occurrence' of White gets value of
-           * 'previous occurrence' and aIndexForOccurrencesOfWhiteArray
-           * is incremented.
-           * This ensures in next iteration's start 'next occurrence' is
-           * changed to real next occurrence (with respect to current pixel.)
-           */
-          if (
-            Number(aCurrentRowPixels[nCurrentRowIteratorIndex]) ===
-            Constants.WHITE_PIXEL_VALUE
-          ) {
+          if (aAllOccurrencesOfWhitePixelsInCurrentRow.length === 0) {
             aDistances.push('0');
-            aIndexForOccurrencesOfWhiteArray++;
-            nPreviousOccurrenceOfWhitePixel = nNextOccurrenceOfWhitePixel;
           } else {
-            aDistances.push(
-                String(
-                    DistanceCalculator.computeRowBasedDistance(
-                        nNextOccurrenceOfWhitePixel,
-                        nPreviousOccurrenceOfWhitePixel,
-                        nCurrentRowIteratorIndex
-                    )
-                )
-            );
+            /**
+             * Set next occurrence of White Pixel.
+             * At start, this shall be the first element of
+             * aAllOccurrencesOfWhitePixelsInCurrentRow. Subsequent iterations,
+             * if the current pixel's index matches Next Occurrence Of White
+             * Pixel, then it's time to consider next occurrence of white also.
+             * So current 'next occurrence' becomes 'previous occurrence'
+             * and new 'next occurrence' will be next element from
+             * aAllOccurrencesOfWhitePixelsInCurrentRow.
+             *
+             * Ex: aAllOccurrencesOfWhitePixelsInCurrentRow = [2,5]
+             *
+             * Iterations until first White pixel is hit:
+             * ------------------------------------------
+             * nNextOccurrenceOfWhitePixel = 2;
+             * nPreviousOccurrenceOfWhitePixel = -1;
+             *
+             * Next / Previous is changed as below then
+             * process continues again until next White pixel is hit:
+             * ------------------------------------------------------
+             * nNextOccurrenceOfWhitePixel = 5;
+             * nPreviousOccurrenceOfWhitePixel = 2;
+             *
+             * And so on...
+             */
+            nNextOccurrenceOfWhitePixel =
+              aAllOccurrencesOfWhitePixelsInCurrentRow[
+                  aIndexForOccurrencesOfWhiteArray
+              ];
+
+            /**
+             * When a White pixel is encountered, the distance is Zero.
+             * This is where the 'next occurrence' of White gets value of
+             * 'previous occurrence' and aIndexForOccurrencesOfWhiteArray
+             * is incremented.
+             * This ensures in next iteration's start 'next occurrence' is
+             * changed to real next occurrence (with respect to current pixel.)
+             */
+            if (
+              Number(aCurrentRowPixels[nCurrentRowIteratorIndex]) ===
+              Constants.WHITE_PIXEL_VALUE
+            ) {
+              aDistances.push('0');
+              aIndexForOccurrencesOfWhiteArray++;
+              nPreviousOccurrenceOfWhitePixel = nNextOccurrenceOfWhitePixel;
+            } else {
+              aDistances.push(
+                  String(
+                      DistanceCalculator.computeDistance(
+                          nNextOccurrenceOfWhitePixel,
+                          nPreviousOccurrenceOfWhitePixel,
+                          nCurrentRowIteratorIndex
+                      )
+                  )
+              );
+            }
           }
         }
-      } else {
-        /**
-         * If current row has no pixels rather empty row,
-         * then output also needs an empty line. So inserting the same
-         * empty row to output distances array also.
-         */
-        aDistances.push('');
       }
       aComputedDistances.push(aDistances);
       // reset before that next pixel row is taken for distance calculation.
@@ -162,13 +160,6 @@ export class DistanceCalculator {
         aOccurrencesOfWhitesInPixelRow.push(nCurrentRowIteratorIndex);
       }
     }
-    /**
-     * After iterating, if no White pixels found, then throw error
-     * as atleast each row should have atleast one White.
-     */
-    if (!aOccurrencesOfWhitesInPixelRow.length) {
-      throwError(whitePixelNotFoundErrorInTheRow());
-    }
     return aOccurrencesOfWhitesInPixelRow;
   };
 
@@ -187,9 +178,9 @@ export class DistanceCalculator {
    * Using the nPreviousOccurrenceOfWhitePixel & nNextOccurrenceOfWhitePixel,
    * we compute the difference of them from current pixel's index
    * and return the minimum of the two differences which will be
-   * the shortest distance of current pixel to nearest White (row based)
+   * the shortest distance of current pixel to nearest White
    */
-  private static computeRowBasedDistance = (
+  private static computeDistance = (
       nNextOccurrenceOfWhitePixel: number,
       nPreviousOccurrenceOfWhitePixel: number,
       nCurrentPixelIndex: number

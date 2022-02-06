@@ -26,7 +26,7 @@ Limitations:
 
 * Reads the input data from Input text. 
 * Validates the No.of Test Cases & Bitmap size ranges.
-* If ranges are valid, iterates though each row of Pixes and finds the nearest White Pixel (1) from the current pixel (the nearest can be at either it's left or right.).
+* If ranges are valid, iterates though each row of Pixes and finds the nearest White Pixel (1) from the current pixel (the nearest can be at either it's left or right / top or bottom.).
 * Collects all the distances and prints the output to Standard Output  
     * 🎉  Result
 
@@ -37,16 +37,18 @@ Limitations:
       Input: 
       ------ 
       1
-      3 4
-      1010
+      4 4
+      0001
+      1011
       0010
-      0111
+      1101
 
       Output:
       -------
-      0101
-      2101
-      1000
+      1210
+      0100
+      1101
+      0010
       ```
 
 ## 🏃 How to Run the Project
@@ -78,3 +80,5 @@ To check & fix linting:
 npm run lint
 npm run lint:fix
 ```
+
+Sample Input and Output is inside **res** folder.

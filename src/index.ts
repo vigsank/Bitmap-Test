@@ -1,6 +1,8 @@
-import {DistanceCalculator} from './Calculations/DistanceCalculator';
 import {Parser} from './Utilities/Parser';
 import {PerformanceInfo} from './Utilities/PerformanceInfo';
+import {
+  calculateDistanceAndPrintOutput
+} from './Utilities/Helper';
 import chalk from 'chalk';
 import readline from 'readline';
 import {throwError} from './Utilities/ErrorHandler';
@@ -44,9 +46,14 @@ export class BitmapProcessor {
     rl.on('close', () => {
       const tCalculationProcessStart = process.hrtime();
 
-      this.printOutput(
-          DistanceCalculator.calculateDistances(this.oParser.getParsedArray())
-      );
+      /**
+       * Calculates distances and print output.
+       */
+      calculateDistanceAndPrintOutput(this.oParser.getBitMapArrayToBeParsed());
+
+      /**
+       * Printing Performance Info
+       */
       process.stdout.write(chalk.magenta('Performance Info:'));
       process.stdout.write('\n');
       process.stdout.write(chalk.magenta('-----------------'));
@@ -61,40 +68,6 @@ export class BitmapProcessor {
       process.stdout.write('\n');
     });
   }
-
-  /**
-   * @param {String} aComputedDistances Output Array to be printed as Standard
-   * Output
-   * Prints the output array.
-   */
-  private printOutput(aComputedDistances: String[][]): void {
-    process.stdout.write(
-        chalk.green(
-            chalk.bold('Computed Distances (row based calculations only) :')
-        )
-    );
-    process.stdout.write('\n');
-    process.stdout.write(chalk.bold('-------------------------------------'));
-    process.stdout.write('\n\n');
-    for (
-      let nRowInd: number = 0;
-      nRowInd < aComputedDistances.length;
-      nRowInd++
-    ) {
-      for (
-        let nColInd: number = 0;
-        nColInd < aComputedDistances[nRowInd].length;
-        nColInd++
-      ) {
-        process.stdout.write(
-            chalk.green(aComputedDistances[nRowInd][nColInd] + ' ')
-        );
-      }
-      process.stdout.write('\n');
-    }
-    process.stdout.write('\n');
-  }
 }
-
 // Start the Process.
 new BitmapProcessor().start();

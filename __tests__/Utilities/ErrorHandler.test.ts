@@ -3,7 +3,7 @@ import {
   ErrorCode,
   invalidValueOfBitmapSize,
   throwError,
-  whitePixelNotFoundErrorInTheRow
+  whitePixelNotFoundError
 } from '../../src/Utilities/ErrorHandler';
 
 import {ErrorInfo} from '../../src/Utilities/Interfaces';
@@ -20,14 +20,14 @@ describe('Error Handler Tests', () => {
   });
   it('Test No White Pixel Found', () => {
     const expectedErrorObj: ErrorInfo = {
-      type: ErrorCode.NoWhitePixelFoundInTheRow,
-      message: 'No White Pixel Found in a Row.'
+      type: ErrorCode.NoWhitePixelFound,
+      message: 'No White Pixel Found.'
     };
-    expect(whitePixelNotFoundErrorInTheRow()).toStrictEqual(expectedErrorObj);
+    expect(whitePixelNotFoundError()).toStrictEqual(expectedErrorObj);
   });
   it('Test throwError Method', () => {
     expect.assertions(1); // expects one failure
-    const errorMsg: string = 'Input has Invalid value of Bitmap size.';
+    const errorMsg: String = 'Input has Invalid value of Bitmap size.';
     try {
       throwError(errorMsg);
     } catch (oError: any) {

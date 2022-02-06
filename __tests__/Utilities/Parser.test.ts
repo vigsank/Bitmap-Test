@@ -6,12 +6,13 @@ enum Scenarios {
   invalidTestCase,
   invalidBitmapSize,
   multipleTestCases,
-  bitmapColumnSizeError
+  bitmapColumnSizeError,
+  noWhitePixelError,
 }
 let oParser: Parser;
 const seedDataToParser = (
     Scenario?: Scenarios | undefined,
-    noOfTestCases: string = '1'
+    noOfTestCases: String = '1'
 ): Parser => {
   oParser = new Parser();
   if (Scenario === Scenarios.invalidTestCase) {
@@ -24,7 +25,11 @@ const seedDataToParser = (
   } else {
     oParser.parse('3 4');
   }
-  oParser.parse('0001');
+  if (Scenario === Scenarios.noWhitePixelError) {
+    oParser.parse('0000');
+  } else {
+    oParser.parse('0001');
+  }
   oParser.parse('0011');
   oParser.parse('0110');
   if (Scenario === Scenarios.bitmapColumnSizeError) {
@@ -43,26 +48,32 @@ const seedDataToParser = (
 describe('Parser Tests', () => {
   it('Successful Input Parsing - Single Test case', () => {
     const oParser: Parser = seedDataToParser();
-    const expectedArray: String[][] = [
-      ['0', '0', '0', '1'],
-      ['0', '0', '1', '1'],
-      ['0', '1', '1', '0']
+    const expectedArray: String[][][] = [
+      [
+        ['0', '0', '0', '1'],
+        ['0', '0', '1', '1'],
+        ['0', '1', '1', '0']
+      ]
     ];
-    expect(oParser.getParsedArray()).toStrictEqual(expectedArray);
+    expect(oParser.getBitMapArrayToBeParsed()).toStrictEqual(expectedArray);
   });
 
   it('Successful Input Parsing - Multiple Test cases', () => {
     const oParser: Parser = seedDataToParser(Scenarios.multipleTestCases, '2');
-    const expectedArray: String[][] = [
-      ['0', '0', '0', '1'],
-      ['0', '0', '1', '1'],
-      ['0', '1', '1', '0'],
-      [],
-      ['0', '0', '0', '1'],
-      ['0', '0', '1', '1'],
-      ['0', '1', '1', '0']
+    const expectedArray: String[][][] = [
+      [
+        ['0', '0', '0', '1'],
+        ['0', '0', '1', '1'],
+        ['0', '1', '1', '0']
+      ],
+
+      [
+        ['0', '0', '0', '1'],
+        ['0', '0', '1', '1'],
+        ['0', '1', '1', '0']
+      ]
     ];
-    expect(oParser.getParsedArray()).toStrictEqual(expectedArray);
+    expect(oParser.getBitMapArrayToBeParsed()).toStrictEqual(expectedArray);
   });
 
   it('Invalid No of test case while Input Parsing', () => {
@@ -83,14 +94,12 @@ describe('Parser Tests', () => {
       seedDataToParser(Scenarios.multipleTestCases);
     } catch (oError: any) {
       expect(oError.message).toBe(
-          chalk
-              .bgHex('#FFFF00')
-              .red(
-                  chalk.bold(
-                      // eslint-disable-next-line max-len
-                      `Error!! Actual No. of Tests cases are more than defined no. of Test cases.`
-                  )
+          chalk.bgHex('#FFFF00').red(
+              chalk.bold(
+                  // eslint-disable-next-line max-len
+                  `Error!! Actual No. of Tests cases are more than defined no. of Test cases.`
               )
+          )
       );
     }
   });
@@ -101,14 +110,24 @@ describe('Parser Tests', () => {
       seedDataToParser(Scenarios.bitmapColumnSizeError);
     } catch (oError: any) {
       expect(oError.message).toBe(
-          chalk
-              .bgHex('#FFFF00')
-              .red(
-                  chalk.bold(
-                      // eslint-disable-next-line max-len
-                      `Error!! Actual Bitmap size is more than defined range`
-                  )
+          chalk.bgHex('#FFFF00').red(
+              chalk.bold(
+                  // eslint-disable-next-line max-len
+                  `Error!! Actual Bitmap size is more than defined range`
               )
+          )
+      );
+    }
+  });
+
+  it('Test No White Pixel scenario', () => {
+    expect.assertions(1); // expects one failure
+    try {
+      seedDataToParser(Scenarios.noWhitePixelError);
+    } catch (oError: any) {
+      expect(oError.message).toBe(
+          // eslint-disable-next-line max-len
+          chalk.bgHex('#FFFF00').red(chalk.bold(`Error!! No White Pixel Found.`))
       );
     }
   });

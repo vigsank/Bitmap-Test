@@ -6,7 +6,7 @@ export enum ErrorCode {
   InvalidValueOfBitmapSize,
   InvalidNumberOfTestCases,
   InvalidActualBitmapSize,
-  NoWhitePixelFoundInTheRow,
+  NoWhitePixelFound,
 }
 
 export const invalidValueOfBitmapSize = (): ErrorInfo => ({
@@ -29,9 +29,9 @@ export const invalidActualBitmapSizeError = (): ErrorInfo => ({
   message: 'Actual Bitmap size is more than defined range'
 });
 
-export const whitePixelNotFoundErrorInTheRow = (): ErrorInfo => ({
-  type: ErrorCode.NoWhitePixelFoundInTheRow,
-  message: 'No White Pixel Found in a Row.'
+export const whitePixelNotFoundError = (): ErrorInfo => ({
+  type: ErrorCode.NoWhitePixelFound,
+  message: 'No White Pixel Found.'
 });
 
 export const throwError = (oError: any): void => {

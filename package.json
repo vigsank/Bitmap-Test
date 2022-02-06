@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "start": "npm run build && node ./out/src/index.js",
+    "start": "node ./out/src/index.js",
+    "start:ts": "ts-node ./src/index.ts",
     "build": "tsc",
     "clean": "rm -rf ./out",
     "clean:build": "npm run clean && npm run build",

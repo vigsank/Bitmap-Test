@@ -11,5 +11,5 @@ export interface BitmapDescription {
  */
 export interface ErrorInfo {
   type: number;
-  message: string;
+  message: String;
 }

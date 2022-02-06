@@ -3,10 +3,12 @@ import {
   invalidActualNumberOfTestCasesError,
   invalidNumberOfTestCasesError,
   invalidValueOfBitmapSize,
-  throwError
+  throwError,
+  whitePixelNotFoundError
 } from './ErrorHandler';
 
 import {BitmapDescription} from './Interfaces';
+import {Constants} from '../Utilities/Constants';
 import {Validator} from './Validator';
 
 /**
@@ -16,18 +18,20 @@ export class Parser {
   private nGivenNumberOfTestCases: number | undefined;
   private nActualNumberOfTestCases: number = 0;
   // Array that will hold the input data.
-  private aInputAsArray: String[][] = [];
+  private aInputBitMapAsArray: String[][] = [];
   // Bitmap Size
   private oBitMapDescription!: BitmapDescription;
   // Actual Number of Rows after parsing one test case
   private nActualNumberOfRows: number = 0;
+  // Parsed Bitmap as Array
+  private aInputBitMapToBeProcessed: String[][][] = [];
 
   /**
    *
-   * @param {string} oCurrentLine Current Line that is read and to be parsed.
+   * @param {String} oCurrentLine Current Line that is read and to be parsed.
    * Gets the current line , parses and adds into inputArray.
    */
-  public parse(oCurrentLine: string): void {
+  public parse(oCurrentLine: String): void {
     /**
      * If nGivenNumberOfTestCases is undefined, then this is the first line of
      * the input that is being read.
@@ -73,11 +77,6 @@ export class Parser {
         if (this.nGivenNumberOfTestCases <= this.nActualNumberOfTestCases) {
           throwError(invalidActualNumberOfTestCasesError());
         }
-        /**
-         * Push Empty row to input array when the current line
-         * from input is an empty line.
-         */
-        this.aInputAsArray.push([]);
       } else {
         /**
          * When no. of pixels in current row > rowLength of Bitmap,
@@ -95,7 +94,27 @@ export class Parser {
         ) {
           throwError(invalidActualBitmapSizeError());
         }
-        this.aInputAsArray.push(oCurrentLine.split(''));
+        /**
+         * After iterating, if no White pixels found, then throw error
+         * as atleast each row should have atleast one White.
+         */
+        if (
+          !oCurrentLine.split('').includes(String(Constants.WHITE_PIXEL_VALUE))
+        ) {
+          throwError(whitePixelNotFoundError());
+        }
+        this.aInputBitMapAsArray.push(oCurrentLine.split(''));
+        if (this.oBitMapDescription.rowSize === this.nActualNumberOfRows) {
+          /**
+           * Push the parsed test case into the array
+           * that will be later used to calculate distances.
+           */
+          this.aInputBitMapToBeProcessed.push(this.aInputBitMapAsArray);
+          /**
+           * Reset the array to process next text case.
+           */
+          this.aInputBitMapAsArray = [];
+        }
       }
     }
     return;
@@ -104,7 +123,7 @@ export class Parser {
   /**
    * @return {String} Input array that was parsed and created from Input
    */
-  public getParsedArray(): String[][] {
-    return this.aInputAsArray;
+  public getBitMapArrayToBeParsed(): String[][][] {
+    return this.aInputBitMapToBeProcessed;
   }
 }
