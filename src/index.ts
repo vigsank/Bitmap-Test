@@ -1,8 +1,10 @@
+import {
+  calculateDistanceAndPrintOutput,
+  calculateDistanceByAlternateApproachAndPrintOutput
+} from './Utilities/Helper';
+
 import {Parser} from './Utilities/Parser';
 import {PerformanceInfo} from './Utilities/PerformanceInfo';
-import {
-  calculateDistanceAndPrintOutput
-} from './Utilities/Helper';
 import chalk from 'chalk';
 import readline from 'readline';
 import {throwError} from './Utilities/ErrorHandler';
@@ -46,10 +48,22 @@ export class BitmapProcessor {
     rl.on('close', () => {
       const tCalculationProcessStart = process.hrtime();
 
-      /**
-       * Calculates distances and print output.
-       */
-      calculateDistanceAndPrintOutput(this.oParser.getBitMapArrayToBeParsed());
+      if (process.argv.includes('alternateApproach')) {
+        /**
+         * Calculates distances using the Alternate Approach
+         * algorithm and print output.
+         */
+        calculateDistanceByAlternateApproachAndPrintOutput(
+            this.oParser.getBitMapArrayToBeParsed()
+        );
+      } else {
+        /**
+         * Calculates distances and print output.
+         */
+        calculateDistanceAndPrintOutput(
+            this.oParser.getBitMapArrayToBeParsed()
+        );
+      }
 
       /**
        * Printing Performance Info

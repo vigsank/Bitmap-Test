@@ -1,3 +1,5 @@
+// eslint-disable-next-line max-len
+import {AlternateApproachDistanceCalculator} from '../Calculations/AlternateApproachDistanceCalculator';
 import {DistanceCalculator} from '../Calculations/DistanceCalculator';
 import chalk from 'chalk';
 
@@ -88,9 +90,34 @@ const compareArraysAndFindMinDistances = (
 };
 
 /**
- * 
+ *
  * @param {String} aInputBitMap Input Bitmap array
  * Computes the distances and prints the result.
+ */
+export const calculateDistanceByAlternateApproachAndPrintOutput = (
+    aInputBitMap: String[][][]
+): void => {
+  if (aInputBitMap.length > 0) {
+    process.stdout.write(chalk.green(chalk.bold('Computed Distances :')));
+    process.stdout.write('\n');
+    process.stdout.write(chalk.bold('-------------------------------------'));
+    process.stdout.write('\n\n');
+
+    aInputBitMap.forEach((aTestCaseToBeProcessed: String[][]) => {
+      const aComputedDistances =
+        AlternateApproachDistanceCalculator.calculateDistances(
+            aTestCaseToBeProcessed
+        );
+      printOutput(aComputedDistances);
+    });
+  }
+};
+
+/**
+ *
+ * @param {String} aInputBitMap Input Bitmap array
+ * Computes the distances using the Alternate Approach algorithm
+ * and prints the result.
  */
 export const calculateDistanceAndPrintOutput = (
     aInputBitMap: String[][][]

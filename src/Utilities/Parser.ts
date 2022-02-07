@@ -3,12 +3,10 @@ import {
   invalidActualNumberOfTestCasesError,
   invalidNumberOfTestCasesError,
   invalidValueOfBitmapSize,
-  throwError,
-  whitePixelNotFoundError
+  throwError
 } from './ErrorHandler';
 
 import {BitmapDescription} from './Interfaces';
-import {Constants} from '../Utilities/Constants';
 import {Validator} from './Validator';
 
 /**
@@ -93,15 +91,6 @@ export class Parser {
           )
         ) {
           throwError(invalidActualBitmapSizeError());
-        }
-        /**
-         * After iterating, if no White pixels found, then throw error
-         * as atleast each row should have atleast one White.
-         */
-        if (
-          !oCurrentLine.split('').includes(String(Constants.WHITE_PIXEL_VALUE))
-        ) {
-          throwError(whitePixelNotFoundError());
         }
         this.aInputBitMapAsArray.push(oCurrentLine.split(''));
         if (this.oBitMapDescription.rowSize === this.nActualNumberOfRows) {

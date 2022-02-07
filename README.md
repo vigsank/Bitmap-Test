@@ -22,8 +22,11 @@ Limitations:
 [Node.js](https://nodejs.org)  
 [TypeScript](https://www.typescriptlang.org)  
 
-## How the distance is computed
+## How the distance is computed: 
 
+### Approach 1:
+* This Approach computes distance between current pixel and all
+pixels in that same row or in that same column only and prints the minimum as output.
 * Reads the input data from Input text. 
 * Validates the No.of Test Cases & Bitmap size ranges.
 * If ranges are valid, iterates though each row of Pixes and finds the nearest White Pixel (1) from the current pixel (the nearest can be at either it's left or right / top or bottom.).
@@ -50,6 +53,36 @@ Limitations:
       1101
       0010
       ```
+### Approach 2:
+* This Approach computes distance between current pixel and all pixels across entire Bitmap and prints the minimum as output.
+* Reads the input data from Input text. 
+* Validates the No.of Test Cases & Bitmap size ranges.
+* If ranges are valid, iterates though each row of Pixes and finds the nearest White Pixel (1) from the current pixel (the nearest can be at either it's left or right / top or bottom.).
+* Collects all the distances and prints the output to Standard Output  
+    * 🎉  Result
+
+      ```
+      Example:
+      --------
+
+      Input: 
+      ------ 
+      1
+      5 5
+      00010
+      10111
+      10110
+      01110
+      10111
+
+      Output:
+      -------
+      12101 
+      01000 
+      01001 
+      10001 
+      01000 
+      ```
 
 ## 🏃 How to Run the Project
 
@@ -59,19 +92,20 @@ Limitations:
 ```
 npm install
 ```
- * Run the program using
+* Run the program using Approach 1
 ```
 cat ./res/InputSamples/Samples.txt | npm run start
-
-(You can 'cat' different sample file also.)
 ```
 
-To run tests:
+* Run the program using Approach 2
+```
+cat ./res/InputSamples/Samples.txt | npm run start alternateApproach
+```
+
+To run tests: (This also generates 'coverage' data and puts into 'coverage' folder.)
 
 ```
 npm run test
-
-This also generates 'coverage' data and puts into 'coverage' folder.
 ```
 
 To check & fix linting:

@@ -119,16 +119,4 @@ describe('Parser Tests', () => {
       );
     }
   });
-
-  it('Test No White Pixel scenario', () => {
-    expect.assertions(1); // expects one failure
-    try {
-      seedDataToParser(Scenarios.noWhitePixelError);
-    } catch (oError: any) {
-      expect(oError.message).toBe(
-          // eslint-disable-next-line max-len
-          chalk.bgHex('#FFFF00').red(chalk.bold(`Error!! No White Pixel Found.`))
-      );
-    }
-  });
 });

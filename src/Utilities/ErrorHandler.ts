@@ -5,8 +5,7 @@ import chalk from 'chalk';
 export enum ErrorCode {
   InvalidValueOfBitmapSize,
   InvalidNumberOfTestCases,
-  InvalidActualBitmapSize,
-  NoWhitePixelFound,
+  InvalidActualBitmapSize
 }
 
 export const invalidValueOfBitmapSize = (): ErrorInfo => ({
@@ -27,11 +26,6 @@ export const invalidActualNumberOfTestCasesError = (): ErrorInfo => ({
 export const invalidActualBitmapSizeError = (): ErrorInfo => ({
   type: ErrorCode.InvalidActualBitmapSize,
   message: 'Actual Bitmap size is more than defined range'
-});
-
-export const whitePixelNotFoundError = (): ErrorInfo => ({
-  type: ErrorCode.NoWhitePixelFound,
-  message: 'No White Pixel Found.'
 });
 
 export const throwError = (oError: any): void => {

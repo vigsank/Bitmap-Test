@@ -1,6 +1,6 @@
 
-> dott@1.0.0 start /Users/i312327/SAPDevelop/bitmap challenge/dott
-> node ./out/src/index.js
+> dott@1.0.0 start:ts /Users/i312327/SAPDevelop/bitmap challenge/dott
+> ts-node ./src/index.ts "alternateApproach"
 
 Computed Distances :
 -------------------------------------
@@ -9,13 +9,25 @@ Computed Distances :
 2 1 0 0 
 1 0 0 1 
 
-1 2 1 0 
-0 1 0 0 
+3 2 1 1 
+2 1 0 0 
 1 1 0 1 
 0 0 1 0 
 
 1 0 1 0 1 
 1 1 0 0 0 
+0 1 0 0 1 
+1 0 0 0 1 
+0 1 0 0 0 
+
+5 4 3 2 1 
+4 3 2 1 0 
+5 4 3 2 1 
+6 5 4 3 2 
+7 6 5 4 3 
+
+1 2 1 0 1 
+0 1 0 0 0 
 0 1 0 0 1 
 1 0 0 0 1 
 0 1 0 0 0 
@@ -43,5 +55,5 @@ Computed Distances :
 
 Performance Info:
 -----------------
-Time Taken to Calculate Distance only is: 0.005762224 seconds.
-Time Taken to Complete Full Process (Read data + Calculate Distance) is: 0.025599409 seconds.
+Time Taken to Calculate Distance only is: 0.007470925 seconds.
+Time Taken to Complete Full Process (Read data + Calculate Distance) is: 0.019197726 seconds.
